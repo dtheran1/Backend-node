@@ -2,6 +2,7 @@ const boom = require('@hapi/boom');
 
 // const getConnection = require('../libs/postgres');
 const pool = require('../libs/postgres.pool');
+const sequelize = require('../libs/sequelize');
 
 class UserService {
   constructor() {
