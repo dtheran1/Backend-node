@@ -7,12 +7,24 @@ class CustomerService {
   constructor() {}
 
   async create(data) {
-    const newCustomer = await models.Customer.create(data);
+    // Esta es la forma manual de hacer las creaciones, tanto de user como del customer
+    // const newUser = await models.User.create(data.user);
+    // const newCustomer = await models.Customer.create({
+    //   ...data, // Sequelize ignora los campos que no se pasan en el modelo para la creacion de un Customer en este caso estara ignorando la data.user
+    //   userId: newUser.id,
+    // });
+
+    // Con sequelize nos ahorramos esa creacion manual del user, pero debemos decirle expliciatamente que le va a llegar un user y que debe crearlo
+    const newCustomer = await models.Customer.create(data, {
+      include: ['user'], // incluimos el modelo de usuario para que se cree automaticamente
+    });
     return newCustomer;
   }
 
   async find() {
-    const rta = await models.Customer.findAll();
+    const rta = await models.Customer.findAll({
+      include: ['user'],
+    });
     return rta;
   }
 
