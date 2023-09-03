@@ -28,10 +28,16 @@ class ProductsService {
     return newProduct;
   }
 
-  async find() {
-    const products = await models.Product.findAll({
+  async find(query) {
+    const options = {
       include: ['category'],
-    });
+    };
+    const { limit, offset } = query;
+    if (limit && offset) {
+      options.limit = limit;
+      options.offset = offset;
+    }
+    const products = await models.Product.findAll(options);
     return products;
   }
 
@@ -41,15 +47,6 @@ class ProductsService {
       throw boom.notFound('customer not found');
     }
     return product;
-
-    // const product = this.products.find((item) => item.id === id);
-    // if (!product) {
-    //   throw boom.notFound('product not found');
-    // }
-    // if (product.isBlock) {
-    //   throw boom.conflict('product is block');
-    // }
-    // return product;
   }
 
   async update(id, changes) {

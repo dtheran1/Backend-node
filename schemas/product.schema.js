@@ -6,6 +6,10 @@ const price = Joi.number().integer().min(10);
 const image = Joi.string().uri();
 const description = Joi.string().min(10);
 
+// Pagination
+const limit = Joi.number().integer();
+const offset = Joi.number().integer();
+
 const categoryId = Joi.number().integer();
 
 const createProductSchema = Joi.object({
@@ -28,4 +32,14 @@ const getProductSchema = Joi.object({
   id: id.required(),
 });
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema };
+const queryProductSchema = Joi.object({
+  limit, // opcional
+  offset, // opcional
+});
+
+module.exports = {
+  createProductSchema,
+  updateProductSchema,
+  getProductSchema,
+  queryProductSchema,
+};
