@@ -29,6 +29,19 @@ const OrderSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
+
+  // Calculando datos con sequelize
+  total: {
+    type: DataTypes.VIRTUAL, // Es virtual porque no existe en la base de datos
+    get() {
+      if (this.items.length > 0) {
+        return this.items.reduce((total, item) => {
+          return total + item.price * item.OrderProduct.amount; // El OrderProduct tiene una propiedad que es amount, por eso se usa OrderProduct.amount
+        }, 0);
+      }
+      return 0;
+    },
+  },
 };
 
 class Order extends Model {
